@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
 	[SerializeField] float moveSpeed = 3.0f;
 	[SerializeField] float jumpPower = 5.0f;
 
+	public IInteractable selectedInteractable;
+
 	private float fallMultiplier = 1.0f;
 	private float fastFallMultiplier = 2.0f;
 
@@ -67,6 +69,14 @@ public class Player : MonoBehaviour
 		{
 			float direction = velocity.x > 0 ? 180 : 0;
 			transform.eulerAngles = new Vector3(0, direction, 0);
+		}
+
+		// Interact
+		if (Input.GetKeyDown(KeyCode.Mouse0))
+		{
+			if (selectedInteractable != null) {
+				selectedInteractable.Interact(this);
+			}
 		}
 	}
 
