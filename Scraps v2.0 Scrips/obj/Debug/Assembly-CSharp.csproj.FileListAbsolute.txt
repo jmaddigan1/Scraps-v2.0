@@ -1,0 +1,2 @@
+D:\Game Development\Unity\Projects\Scraps v2.0 Scrips\obj\Debug\Assembly-CSharp.csprojAssemblyReference.cache
+D:\Game Development\Unity\Projects\Scraps v2.0 Scrips\obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs.cache
