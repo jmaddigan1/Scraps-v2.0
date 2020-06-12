@@ -18,11 +18,14 @@ public class LightSwitch : Interactable
 	// Toggle lights
 	IEnumerator coToggleLight()
 	{
+		// Send the list of lights to the camera
 		CameraController.Instance.LookAtTarget(lights, Vector3.zero, 2f);
 
+		// Set camera speed
 		float defaultSpeed = CameraController.Instance.Speed;
 		CameraController.Instance.Speed = 15.5f;
 
+		// Make sure we cant interact with this twice
 		canInteract = false;
 
 		foreach (Transform light in lights)
