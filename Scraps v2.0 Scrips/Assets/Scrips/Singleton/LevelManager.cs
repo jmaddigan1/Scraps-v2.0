@@ -87,8 +87,6 @@ public class LevelManager : MonoBehaviour
 		// Wait for the loading screen to fade in
 		yield return new WaitForSecondsRealtime(1.0f);
 
-		// TODO:(Nathen) Add a loading bar..
-
 		// Unload the last scene if we are not the manager scene
 		if (current != (int)SceneIndex.MANAGER) {
 			currentlyLoading.Add(SceneManager.UnloadSceneAsync(current));
@@ -122,7 +120,7 @@ public class LevelManager : MonoBehaviour
 			}
 		}
 
-		yield return new WaitForSecondsRealtime(1.5f);
+		yield return new WaitForSecondsRealtime(1.0f);
 
 		loading = false;
 	}
