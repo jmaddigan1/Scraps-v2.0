@@ -47,6 +47,8 @@ public class LightSwitch : Interactable
 	// Show what lights we are connected to
 	private void OnDrawGizmos()
 	{
+		if (lights.Count == 0) return;
+
 		Gizmos.color = new Color(0, 0, 1, 0.1f);
 		Gizmos.DrawCube(transform.position + Vector3.up, Vector3.one * 2);
 

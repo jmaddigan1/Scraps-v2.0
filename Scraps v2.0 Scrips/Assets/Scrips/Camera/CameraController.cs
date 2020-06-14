@@ -80,7 +80,7 @@ public class CameraController : MonoBehaviour
 		}
 		else
 		{ 
-			transform.position = Vector3.Lerp(currentPosition, targetPosition, Time.deltaTime * 1f);
+			transform.position = Vector3.Lerp(currentPosition, targetPosition, Time.deltaTime * 2f);
 		}	
 	}
 
