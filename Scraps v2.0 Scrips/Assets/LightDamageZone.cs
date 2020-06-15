@@ -12,7 +12,10 @@ public class LightDamageZone : Interactable
 
 	public Transform Target;
 
-	// Update is called once per frame
+	private void Start()
+	{
+		updatePlayerInteractable = false;
+	}
 	void Update()
 	{
 		if (Target != null)
