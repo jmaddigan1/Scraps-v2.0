@@ -9,7 +9,7 @@ public class NPC : Interactable
 		DialogueManager.Instance.SetText("Yo dog whaz up?");
 	}
 
-	public override void OnEnterInteractable()
+	public override void OnEnterInteractable(Player player)
 	{
 		Debug.Log("Talk to the Dude");
 	}

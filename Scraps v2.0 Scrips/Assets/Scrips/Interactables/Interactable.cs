@@ -8,14 +8,14 @@ public abstract class Interactable : MonoBehaviour
 {
 	public virtual void Interact(Player player) { }
 
-	public virtual void OnEnterInteractable() { Debug.Log($"Player entered: {gameObject.name}"); }
-	public virtual void OnExitInteractable() { }
+	public virtual void OnEnterInteractable(Player player) { Debug.Log($"Player entered: {gameObject.name}"); }
+	public virtual void OnExitInteractable(Player player) { }
 
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.TryGetComponent<Player>(out Player player)) {
 			player.selectedInteractable = this;
-			OnEnterInteractable();
+			OnEnterInteractable(player);
 		}
 	}
 
@@ -25,7 +25,7 @@ public abstract class Interactable : MonoBehaviour
 			if (player.selectedInteractable == this)
 			{
 				player.selectedInteractable = null;
-				OnExitInteractable();
+				OnExitInteractable(player);
 			}
 		}
 	}
