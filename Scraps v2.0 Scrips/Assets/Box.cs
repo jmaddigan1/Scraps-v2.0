@@ -28,7 +28,14 @@ public class Box : Interactable, IPushable
 	}
 
 	public void Push() { PickedUp = true; }
-	public void Drop() { PickedUp = false; if (player) { transform.position = player.transform.position + -player.transform.right; } }
+	public void Drop() { PickedUp = false; if (player) { DropBox(); } }
+
+	// Place the box in front of the player
+	public void DropBox()
+	{
+		// Just drop if in front of me for now
+		transform.position = player.transform.position + -player.transform.right;
+	}
 
 	public override void OnEnterInteractable(Player player)
 	{
@@ -41,11 +48,12 @@ public class Box : Interactable, IPushable
 		this.player = null;
 	}
 
+	// Override the Interactables OnTriggerExit
 	private void OnTriggerExit(Collider other)
 	{
-		if (other.TryGetComponent<Player>(out Player player))
-		{
-			if (player.Pushable == (IPushable)this) {
+		if (other.TryGetComponent<Player>(out Player player)) {
+			if (player.Pushable == (IPushable)this)
+			{
 				OnExitInteractable(player);
 			}
 		}

@@ -6,8 +6,8 @@ using UnityEngine;
 
 public abstract class Interactable : MonoBehaviour
 {
-	[HideInInspector] public bool updatePlayerInteractable = true; // If we want this to override the current  interactable 
-	[HideInInspector] public bool showInteractableGizmos = true; // If we want to show this interactables gizmos
+	public bool updatePlayerInteractable = true; // If we want this to override the current  interactable 
+	public bool showInteractableGizmos = true; // If we want to show this interactables gizmos
 
 	public virtual void Interact(Player player) { }
 
