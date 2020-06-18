@@ -11,11 +11,9 @@ public class CameraController : MonoBehaviour
 
 	public Transform Target;
 
-	public bool smoothCamera = true;
-
 	public int CharacterIndex = 0;
+
 	public bool Looking = false;
-	public float Speed = 3.2f;
 
 	public Vector3 Offset = new Vector3(0, 3f, 4f);
 
@@ -67,21 +65,16 @@ public class CameraController : MonoBehaviour
 		Vector3 currentPosition = transform.position;
 		Vector3 targetPosition = Target.position + Offset;
 
-		if (smoothCamera)
+		if (Looking)
 		{
-			float distance = Vector3.Distance(transform.position, targetPosition);
-			float cameraSpeed = distance < 1 ? Speed * distance : Speed;
-
-			if (Looking == false) {
-				cameraSpeed = distance > 5 ? 35.0f : cameraSpeed;
-			}
-
-			transform.position = Vector3.MoveTowards(currentPosition, targetPosition, cameraSpeed * Time.deltaTime);
+			// Smooth Move
+			transform.position = Vector3.MoveTowards(currentPosition, targetPosition, Time.deltaTime * 6.5f);
 		}
 		else
-		{ 
-			transform.position = Vector3.Lerp(currentPosition, targetPosition, Time.deltaTime * 2f);
-		}	
+		{
+			// Lerp Move
+			transform.position = Vector3.Lerp(currentPosition, targetPosition, Time.deltaTime * 2.0f);
+		}
 	}
 
 	// Change the state of a player from active to false or vice versa
@@ -113,42 +106,44 @@ public class CameraController : MonoBehaviour
 
 	// Look at a target in the environment
 	// Start a coroutine
-	public void LookAtTarget(Transform targets, Vector3 offset, float duration)
+	public void LookAtTarget(Transform targets, Vector3 offset, bool pauseOnTarget = true)
 	{
-		StartCoroutine(coLookAtTarget(new List<Transform> { targets }, offset, duration));
+		StartCoroutine(coLookAtTarget(new List<Transform> { targets }, offset, pauseOnTarget));
 	}
-	public void LookAtTarget(List<Transform> targets, Vector3 offset, float duration)
+	public void LookAtTarget(List<Transform> targets, Vector3 offset, bool pauseOnTarget = true)
 	{
-		StartCoroutine(coLookAtTarget(targets, offset, duration));
+		StartCoroutine(coLookAtTarget(targets, offset, pauseOnTarget));
 	}
 
-	private IEnumerator coLookAtTarget(List<Transform> targets, Vector3 offset, float duration)
+	private IEnumerator coLookAtTarget(List<Transform> targets, Vector3 offset, bool pauseOnTarget = true)
 	{
 		// If we are currently looking at something.
 		// We wait for that to end.
 		while (Looking == true) yield return null;
-		smoothCamera = true;
 
-		// We are now looking at something.
 		Looking = true;
 
-		float counter = 0.0f;
-
+		// Loop through each target
 		foreach (Transform target in targets)
 		{
+			// Set the target the camera will move towards
 			Target = target;
-			counter = 0.0f;
 
-			while ((counter += Time.deltaTime) < duration)
-			{
+			// [WAIT] Till we get to the current target
+			while (Vector3.Distance(Target.position + Offset, transform.position) > 0.1f) {
 				yield return null;
 			}
+
+			// Pause on a target
+			if (pauseOnTarget) yield return new WaitForSeconds(0.5f);
+
+			// Call any extra functionality on objects that have an Observable interface
+			if (target.TryGetComponent<IObservable>(out IObservable observable)) observable.OnCameraFocus();
 		}
 
+		// Look back at the player
 		Target = PlayerCharacters[CharacterIndex];
-
-		// We are no longer looking at somthing
-		smoothCamera = false;
+		
 		Looking = false;
 	}
 }

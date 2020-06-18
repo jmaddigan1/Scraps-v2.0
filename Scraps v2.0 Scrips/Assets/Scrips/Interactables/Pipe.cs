@@ -14,7 +14,7 @@ public class Pipe : Interactable
 	private IEnumerator coFollowPath(Player player)
 	{
 		EnterPath(player);
-		CameraController.Instance.LookAtTarget(Path, Vector3.zero, 1);
+		CameraController.Instance.LookAtTarget(Path, Vector3.zero, false);
 		yield return new WaitForSecondsRealtime(Path.Count);
 		ExitPath(player);
 	}
