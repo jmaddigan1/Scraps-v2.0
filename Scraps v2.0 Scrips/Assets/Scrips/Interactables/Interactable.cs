@@ -6,7 +6,8 @@ using UnityEngine;
 
 public abstract class Interactable : MonoBehaviour
 {
-	[HideInInspector] public bool updatePlayerInteractable = true;
+	[HideInInspector] public bool updatePlayerInteractable = true; // If we want this to override the current  interactable 
+	[HideInInspector] public bool showInteractableGizmos = true; // If we want to show this interactables gizmos
 
 	public virtual void Interact(Player player) { }
 
@@ -34,6 +35,8 @@ public abstract class Interactable : MonoBehaviour
 
 	private void OnDrawGizmos()
 	{
+		if (showInteractableGizmos == false) return;
+
 		BoxCollider collider = GetComponent<BoxCollider>();
 		Gizmos.DrawCube(transform.position + collider.center, collider.size);
 	}

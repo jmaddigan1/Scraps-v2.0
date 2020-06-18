@@ -10,8 +10,11 @@ public class Player : MonoBehaviour
 	[SerializeField] float jumpPower = 5.0f;
 
 	public Interactable selectedInteractable;
-	public OwnerType ownerType;
+	public IPushable Pushable;
 
+	public OwnerType ownerType;
+	public float Height;
+	
 	private float fallMultiplier = 1.0f;
 	private float fastFallMultiplier = 2.0f;
 
@@ -80,7 +83,24 @@ public class Player : MonoBehaviour
 		// Interact
 		if (Input.GetKeyDown(KeyCode.Mouse0))
 		{
-			if (selectedInteractable != null) {
+			// NOTE:(Nathen) We prioratize pushables over interactables
+			// This is so you never get in a situation where you can't pick up something
+			// because an NPC trigger is blocking the pushable
+
+			// Check if we can interact with a pushable or an interactable
+			if (Pushable != null)
+			{
+				// If we are currently pushing this Pushable
+				if (Pushable.GetState() == true)
+				{
+					Pushable.Drop();
+				}
+				else
+				{
+					Pushable.Push();
+				}
+			}
+			else if (selectedInteractable != null) {
 				selectedInteractable.Interact(this);
 			}
 		}
