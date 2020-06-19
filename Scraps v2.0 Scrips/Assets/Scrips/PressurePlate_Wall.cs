@@ -15,4 +15,9 @@ public class PressurePlate_Wall : PressurePlate, IObservable
 	{
 
 	}
+
+	public override void OnUp()
+	{
+		wall.gameObject.SetActive(true);
+	}
 }

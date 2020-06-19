@@ -23,22 +23,19 @@ public abstract class PressurePlate : MonoBehaviour
 	}
 
 	// On Initial press
-	public virtual void OnDown()
-	{
-		
-	}
+	public virtual void OnDown() { }
+	public virtual void OnUp() { }
 
 	// On held down
-	public virtual void OnPress()
-	{
-	}
+	public virtual void OnPress() { }
 
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.TryGetComponent<IPushable>(out IPushable targetPushable))
 		{
 			// If we (the player) are not pushing this item
-			if (targetPushable.GetState() == false) {
+			if (targetPushable.GetState() == false)
+			{
 				pushable = targetPushable;
 
 				// trigger pressure plate stuff (one time)
@@ -52,8 +49,10 @@ public abstract class PressurePlate : MonoBehaviour
 		if (other.TryGetComponent<IPushable>(out IPushable targetPushable))
 		{
 			// If we (the player) are not pushing this item
-			if (targetPushable.GetState() == false) {
+			if (targetPushable.GetState() == false)
+			{
 				pushable = null;
+				OnUp();
 			}
 		}
 	}

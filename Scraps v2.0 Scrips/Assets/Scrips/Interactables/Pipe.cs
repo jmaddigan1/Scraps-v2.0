@@ -14,8 +14,14 @@ public class Pipe : Interactable
 	private IEnumerator coFollowPath(Player player)
 	{
 		EnterPath(player);
+
+		// Send list of things to look at
 		CameraController.Instance.LookAtTarget(Path, Vector3.zero, false);
-		yield return new WaitForSecondsRealtime(Path.Count);
+
+		// Wait till we are finished looking
+		// NOTE:(Nathen) This might be longer than you think is multiple things are qued up for the camera to look at
+		while (CameraController.Instance.Looking) yield return null;
+
 		ExitPath(player);
 	}
 
